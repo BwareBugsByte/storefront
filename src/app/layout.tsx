@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense, type ReactNode } from "react";
