@@ -29,7 +29,6 @@ const config = {
 		],
 	},
     
-    // (Optional) If you have any other experimental features, keep them here
 	experimental: {},
 };
 
