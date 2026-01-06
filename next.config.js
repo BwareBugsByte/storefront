@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const config = {
 	images: {
-		unoptimized: true,
+		unoptimized: true, // We don't need Sharp because of this
 		remotePatterns: [
 			{
 				hostname: "*",
@@ -10,22 +10,25 @@ const config = {
 	},
 	typedRoutes: false,
 	
-	// 1. Force Standalone mode
+	// Force standalone output
 	output: "standalone",
 
-	// 2. EXCLUSION RULES (Moved to Root Level for Next.js 16+)
+	// AGGRESSIVE EXCLUSIONS
 	outputFileTracingExcludes: {
 		"*": [
-			"node_modules/@swc/core-linux-x64-gnu",
-			"node_modules/@swc/core-linux-x64-musl",
-			"node_modules/@esbuild/linux-x64",
-			"node_modules/terser",
-			"node_modules/webpack",
-			"node_modules/watchpack",
-			"node_modules/next/dist/compiled/@next/font",
-            // Add these extra heavy ones just in case
-            "node_modules/@next/swc-linux-x64-gnu", 
-            "node_modules/@next/swc-linux-x64-musl"
+			// Exclude Sharp explicitly (in case it sneaks in via sub-dependencies)
+			"**/node_modules/sharp/**/*", 
+			"**/node_modules/@img/**/*",
+			
+			// Exclude Build Tools
+			"**/node_modules/@swc/**/*",
+			"**/node_modules/@esbuild/**/*",
+			"**/node_modules/terser/**/*",
+			"**/node_modules/webpack/**/*",
+			
+			// Exclude Heavy Next.js Internals not needed for runtime
+			"**/node_modules/next/dist/compiled/@next/font/**/*",
+            "**/node_modules/next/dist/compiled/webpack/**/*",
 		],
 	},
     
